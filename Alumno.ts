@@ -1,34 +1,24 @@
-import Persona from "./interface";
+import Persona from "./Persona";
 
-abstract class Alumno implements Persona{
+class Alumno implements Persona{
     nombre: string;
     apellido: string;
     dni: number;
-    materiasCursadas: string;
+    materiasCursadas: [];
     matricula: boolean;
     notaPorMateria: number;
+    promedio: number;
 
-    constructor(nombre: string, apellido: string, dni: number, materiasCursadas: string, matricula: boolean, 
-        notaPorMateria: number){
+    constructor(nombre: string, apellido: string, dni: number, materiasCursadas: [], matricula: boolean, 
+        notaPorMateria: number, promedio: number){
            this.nombre = nombre;
            this.apellido = apellido;
            this.dni = dni;
            this.materiasCursadas = materiasCursadas;
            this.matricula = matricula;
            this.notaPorMateria = notaPorMateria;
+           this.promedio = promedio;
     }
 
-    crear(): void{
-
-    }
-    modificar(): void{
-
-    }
-    listar(): void{
-
-    }
-    eliminar(): void{
-
-    }
 }
 export default Alumno;

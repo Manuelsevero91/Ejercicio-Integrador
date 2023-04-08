@@ -4,8 +4,4 @@ export default interface Persona {
   apellido: string;
   dni: number;
 
-  crear(): void;
-  modificar(): void;
-  listar(): void;
-  eliminar(): void;
 }
