@@ -4,14 +4,14 @@ import Persona from "./Persona";
     nombre: string;
     apellido: string;
     dni: number;
-    materiasQueDicta: string;
+    materia: string;
     contrato: boolean;
 
-    constructor(nombre: string, apellido: string, dni: number, materiasQueDicta: string, contrato: boolean){
+    constructor(nombre: string, apellido: string, dni: number, materia: string, contrato: boolean){
            this.nombre = nombre; 
            this.apellido = apellido; 
            this.dni = dni; 
-           this.materiasQueDicta = materiasQueDicta; 
+           this.materia= materia; 
            this.contrato = contrato; 
         
     }
