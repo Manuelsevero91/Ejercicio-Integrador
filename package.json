@@ -13,6 +13,7 @@
   "dependencies": {
     "@types/node": "^18.15.11",
     "readline-sync": "^1.4.10",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "uuid": "^9.0.0"
   }
 }

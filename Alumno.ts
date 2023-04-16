@@ -1,26 +1,50 @@
+import Materia from "./Materia";
 import Persona from "./Persona";
+const { v4: uuidv4 } = require('uuid');
+import Profesor from "./Profesor";
 
 
-class Alumno implements Persona{
+export enum MateriasMatriculadas{
+   Direccion,    
+   Guionista,
+   Fotografia,
+   Produccion,
+   Sonido,
+   Montaje
+}
+
+ export class Alumno implements Persona{
     nombre: string;
     apellido: string;
     dni: number;
-    materiasCursadas: [];
-    matricula: boolean;
-    notaPorMateria: number;
-    promedio: number;
-
-    constructor(nombre: string, apellido: string, dni: number, matricula: boolean, 
-        notaPorMateria: number, promedio: number){
+    materiasMatriculadas: MateriasMatriculadas;
+    id: string;
+  
+    
+    constructor(nombre: string, apellido: string, dni: number, materiasMatriculadas: MateriasMatriculadas,
+         id: number){
            this.nombre = nombre;
            this.apellido = apellido;
            this.dni = dni;
-           this.materiasCursadas = [];
-           this.matricula = matricula;
-           this.notaPorMateria = notaPorMateria;
-           this.promedio = promedio;
+           this.materiasMatriculadas = materiasMatriculadas;
+           this.id = uuidv4 ().slice(0,6);
+          
 
-    
         }
+
+        agregarMateria(nombre: string){
+         }
+
+        actualizarMateria(){
+
+        }
+        eliminarMateria(){
+
+        }
+        getPromedio(){
+             
+        }
+        
 }
-export default Alumno;
+
+

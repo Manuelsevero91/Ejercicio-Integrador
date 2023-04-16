@@ -1,20 +1,22 @@
-import { log } from "console";
 import Gestor from "./Gestor";
 import Materia from "./Materia";
 import Profesor from "./Profesor";
+import {chequear, escribir, leer, guardar} from "./Utils";
+const { v4: uuidv4 } = require('uuid');
 
-const Jim = new Profesor('Jim', 'JArmusch', 2332323, 'director cine', true)
-const directorCine = new Materia('director cine', Jim)
+// let Jim = new Profesor('Jim', 'Jarmusch', 2332323, 'director cine', true, uuidv4 )
+// // const directorCine = new Materia('director cine', Jim)
+// let Danny = new Profesor('Danny', 'Boyle',3151613, 'Fotografia', true, uuidv4 )
+// let Francis = new Profesor('Francis', 'Coppola', 51651515, 'Guionista', true, uuidv4 )
 
-console.log(directorCine);
+// let path = './profesores.json';
+// guardar(path, Danny)
 
-const cinefilia = new Gestor('cinefilia');
+let trainspotting = new Gestor('trainspotting');
 
-cinefilia.agregarAlumno();
-cinefilia.agregarAlumno();
-cinefilia.agregarAlumno();
+trainspotting.agregarAlumno();
 
-console.log(cinefilia.data);
+// trainspotting.modificarAlumno('Vladimir', [], 'Rembrandt')
 
 
 
