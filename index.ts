@@ -3,6 +3,8 @@ import Materia from "./Materia";
 import Profesor from "./Profesor";
 import {chequear, escribir, leer, guardar} from "./Utils";
 const { v4: uuidv4 } = require('uuid');
+import { Alumno, MateriasMatriculadas } from "./Alumno";
+import { json } from "stream/consumers";
 
 // let Jim = new Profesor('Jim', 'Jarmusch', 2332323, 'director cine', true, uuidv4 )
 // // const directorCine = new Materia('director cine', Jim)
@@ -13,10 +15,11 @@ const { v4: uuidv4 } = require('uuid');
 // guardar(path, Danny)
 
 let trainspotting = new Gestor('trainspotting');
+let Manuel = new Alumno('Manuel', 'Severo', 5443265, 2, uuidv4)
+// trainspotting.agregarAlumno();
 
-trainspotting.agregarAlumno();
+Manuel.actualizarMateria('Direccion')
 
-// trainspotting.modificarAlumno('Vladimir', [], 'Rembrandt')
-
+// Manuel.actualizarMateria(JSON, 'Direccion')
 
 

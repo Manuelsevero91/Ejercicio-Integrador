@@ -9,7 +9,7 @@ const { v4: uuidv4 } = require('uuid');
     contrato: boolean;
     id: string;
 
-    constructor(nombre: string, apellido: string, dni: number, materia: string, contrato: boolean, id: number){
+    constructor(nombre: string, apellido: string, dni: number, materia: string, contrato: boolean, id: string){
            this.nombre = nombre; 
            this.apellido = apellido; 
            this.dni = dni; 

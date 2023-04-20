@@ -8,6 +8,6 @@ export default class Materia {
     this.nombre = nombre;
     this.profesor = profesor;
   }
-
+    
 }
 
