@@ -1,12 +1,13 @@
 import Profesor from "./Profesor"
+const { v4: uuidv4 } = require('uuid');
 
 export default class Materia {
   nombre: string;
-  profesor: Profesor;
+  id: string;
 
-  constructor(nombre: string, profesor: Profesor) {
+  constructor(nombre: string, id: string) {
     this.nombre = nombre;
-    this.profesor = profesor;
+    this.id = uuidv4 ().slice(0,6);
   }
     
 }

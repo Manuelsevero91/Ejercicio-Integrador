@@ -1,0 +1,50 @@
+[
+  {
+    "nombre": "Francis",
+    "apellido": "Coppola",
+    "dni": "15662626",
+    "materia": "Direccion",
+    "contrato": "true",
+    "id": "8b9443"
+  },
+  {
+    "nombre": "Jim",
+    "apellido": "Jarmush",
+    "dni": "1611666",
+    "materia": "Guion",
+    "contrato": "true",
+    "id": "d767fb"
+  },
+  {
+    "nombre": "Danny",
+    "apellido": "Boyle",
+    "dni": "1961616",
+    "materia": "Fotografia",
+    "contrato": "true",
+    "id": "e89800"
+  },
+  {
+    "nombre": "Akira",
+    "apellido": "Kurosawa",
+    "dni": "61616166",
+    "materia": "Produccion",
+    "contrato": "true",
+    "id": "990785"
+  },
+  {
+    "nombre": "Carmine",
+    "apellido": "Coppola",
+    "dni": "1611616",
+    "materia": "Sonido",
+    "contrato": "true",
+    "id": "233eb5"
+  },
+  {
+    "nombre": "Ethan",
+    "apellido": "Cohen",
+    "dni": "1542584",
+    "materia": "Montaje",
+    "contrato": "true",
+    "id": "d262c7"
+  }
+]

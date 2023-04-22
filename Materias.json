@@ -1,18 +1,26 @@
 [
   {
-    "nombre": "Direcccion",
-    "profesor": "Jarmush"
+    "nombre": "Direccion",
+    "id": "759f98"
   },
   {
-    "nombre": "Gionista",
-    "profesor": "Coppola"
+    "nombre": "Guion",
+    "id": "863751"
   },
   {
     "nombre": "Fotografia",
-    "profesor": "Herzog"
+    "id": "509aed"
+  },
+  {
+    "nombre": "Produccion",
+    "id": "235fff"
+  },
+  {
+    "nombre": "Sonido",
+    "id": "a3562a"
   },
   {
     "nombre": "Montaje",
-    "profesor": "Boyle"
+    "id": "69316a"
   }
 ]

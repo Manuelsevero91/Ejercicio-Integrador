@@ -36,24 +36,24 @@ export enum MateriasMatriculadas{
         }
 
         agregarMateria(){
-         let pathMateria = './Materias.json'
-         let nombre = readlineSync.question('Nombre de la materia: ');
-         let profesor = readlineSync.question('Nombre del profesor: ');
-         let nuevaMateria = new Materia(nombre, profesor);
-         guardar(pathMateria, nuevaMateria);
-         
-         }
+          let pathMateria = './Materias.json'
+          let nombre = readlineSync.question('Nombre de la materia: ');
+          let id = uuidv4().slice(0, 6);
+          let nuevaMateria = new Materia(nombre, id);
+          guardar(pathMateria, nuevaMateria);
+          
+          }
         actualizarMateria(nombre: string){
          let pathMateria = './Materias.json'
-         let materias = JSON.parse(fs.readFileSync(pathMateria, 'utf-8'));
+         let materias: Materia[] = [];
+         materias = JSON.parse(fs.readFileSync(pathMateria, 'utf-8'));
          let materiaModificar = materias.findIndex(materia => materia.nombre === nombre);
            
            if (materiaModificar !== -1) {
             materias[materiaModificar].nombre = nombre; 
             fs.writeFileSync(pathMateria, JSON.stringify(materias, null, 2)); 
-          }
-         
-        
+            
+          }   
           return materias;
         }
       

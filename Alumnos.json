@@ -1,13 +1,22 @@
 [
   {
-    "nombre": "knfvnvf",
-    "apellido": "ldcmlmdcl",
-    "dni": "3616116",
+    "nombre": "Yukio",
+    "apellido": "Mishima",
+    "dni": "2652356",
     "materiasMatriculadas": [
-      "Guionista",
-      "Fotografia",
-      "Produccion"
+      {
+        "nombre": "Guion",
+        "id": "863751"
+      },
+      {
+        "nombre": "Produccion",
+        "id": "235fff"
+      },
+      {
+        "nombre": "Sonido",
+        "id": "a3562a"
+      }
     ],
-    "id": "257621"
+    "id": "f2a246"
   }
 ]
