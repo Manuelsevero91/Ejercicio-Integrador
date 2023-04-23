@@ -3,7 +3,7 @@ import Materia from "./Materia";
 import Profesor from "./Profesor";
 import {chequear, escribir, leer, guardar} from "./Utils";
 const { v4: uuidv4 } = require('uuid');
-import {Alumno, MateriasMatriculadas } from "./Alumno";
+import {Alumno} from "./Alumno";
 
 
 
@@ -17,15 +17,14 @@ import {Alumno, MateriasMatriculadas } from "./Alumno";
 // guardar(path, Danny)
 
 let trainspotting = new Gestor('trainspotting');
-
-// let Manuel = new Alumno('Manuel', 'Severo', 5443265, 2, uuidv4);
-
+let Manuel = new Alumno('Manuel', 'Severo', 5443265, uuidv4, 6);
+trainspotting.getAlumnosPorProfesor()
 // trainspotting.agregarProfesor();
 // trainspotting.agregarProfesor();
 // trainspotting.agregarProfesor();
 // trainspotting.agregarProfesor();
 // trainspotting.agregarAlumno();
-// tainspotting.agregarAlumno();
+// trainspotting.agregarAlumno();
 // trainspotting.agregarAlumno();
 // trainspotting.agregarAlumno();
 // Manuel.agregarMateria()

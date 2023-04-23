@@ -1,5 +1,5 @@
 import Profesor from "./Profesor";
-import { Alumno, MateriasMatriculadas } from "./Alumno";
+import { Alumno} from "./Alumno";
 import Materia from "./Materia";
 const { v4: uuidv4 } = require('uuid');
 import { chequear, escribir, leer, guardar } from "./Utils";
@@ -38,7 +38,7 @@ export default class Gestor {
     let materias: string[] = ['Direccion', 'Guion', 'Fotografia', 'Produccion', 'Sonido', 'Montaje']
     let Materias = leer(pathMaterias); // Leer datos de profesores
     let materiasMatriculadas: { materia: Materia, nota: number }[] = [];
-  
+
     while (true) {
       let indiceMateriasMatriculadas = readlineSync.keyInSelect(materias, 'Materias que se quiere matricular: ');
 
@@ -76,8 +76,8 @@ export default class Gestor {
       nombre: nombre,
       apellido: apellido,
       dni: dni,
-      id: id,
       materiasMatriculadas: materiasMatriculadas,
+      id: id,
       promedioNotas: promedioNotas
     }
 
@@ -104,8 +104,6 @@ export default class Gestor {
 
     guardar(pathProfesores, nuevoProfesor);
   }
-
-
 
   buscarAlumno(nombre: string, pathAlumno: Alumno[]) {
     let AlumnoEncontrado = pathAlumno.find(alumno => alumno.nombre === nombre)
@@ -138,57 +136,61 @@ export default class Gestor {
 
   eliminarProfesor() {
 
+  }  
+ 
+// Función para obtener profesores por ID de alumno
+  getProfesoresPorAlumno() {
+  const alumnoId = readlineSync.question('Ingresa el ID del alumno: ');
+
+  // Buscar al alumno por su ID
+  const alumno = alumnos.find((alumno: any) => alumno.id === alumnoId);
+
+  if (alumno) {
+    const materiaId = alumno.materiaId;
+    // const profesoresDelAlumno = profesores.filter((profesor: any) => profesor.materiaId === materiaId);
+    const materiaIds = alumno.materiasMatriculadas.map((materiaMatriculada: any) => materiaMatriculada.materia.id);
+    const profesoresDelAlumno = profesores.filter((profesor: any) => materiaIds.includes(profesor.materiaId));
+    
+    console.log('Profesores del alumno:');
+    if (profesoresDelAlumno.length > 0) {
+      console.log(profesoresDelAlumno);
+    } else {
+      console.log('No se encontraron profesores para el alumno con ID:', alumnoId);
+    }
+  } else {
+    console.log('No se encontró el alumno con ID:', alumnoId);
   }
 }
-  // Definir función para obtener profesores de un alumno específico
-  function obtenerProfesoresDeAlumno(alumnoId: string) {
-    const alumno = alumnos.find(function (alumno: any) {
-      return alumno.id === alumnoId;
-    });
-    if (alumno) {
-      const materiasMatriculadas = alumno.materiasMatriculadas.map(function (materia: any) {
-        return materia.id;
-      }); // Obtener IDs de las materias matriculadas por el alumno
-      const profesoresDeAlumno = profesores.filter(function (profesor: any){
-        return materiasMatriculadas.includes(profesor.materiaId);
-      }); // Filtrar profesores por las materias matriculadas por el alumno
-      return profesoresDeAlumno;
-    } else {
-      console.log('No se encontró el alumno con el ID proporcionado.');
-      return [];
-    }
-  }
-  // Obtener ID del alumno específico
-  let alumnoId = readlineSync.question('Ingresa el ID del alumno: ');
-  
-  // Obtener y mostrar profesores del alumno específico
-  const profesoresDelAlumno = obtenerProfesoresDeAlumno(alumnoId);
-  console.log('Profesores del alumno con ID', alumnoId);
-  console.log(profesoresDelAlumno);
-  
 
-// / // Definir función para obtener alumnos de un profesor específico
-let obtenerAlumnosDeProfesor = (profesorId: string) => {
-  // Buscar al profesor por su ID en la lista de profesores
+
+// Definir la función getAlumnosPorProfesor sin parámetros
+getAlumnosPorProfesor() {
+  // Solicitar el ID del profesor al usuario
+  const profesorId = readlineSync.question('Por favor, ingrese el ID del profesor: ');
+
+  // Buscar al profesor por su ID
   const profesor = profesores.find((profesor: any) => profesor.id === profesorId);
+
   if (profesor) {
-    const materiaImpartida = profesor.materiaId; // Obtener ID de la materia impartida por el profesor
-    const alumnosDelProfesor = alumnos.filter((alumno: any) => alumno.materiasMatriculadas.find((materia: any) => materia.id === materiaImpartida)); // Filtrar alumnos por las materias matriculadas que coincidan con la materia impartida por el profesor
-    return alumnosDelProfesor;
+    const materiaId = profesor.materiaId;
+    const alumnosDelProfesor = alumnos.filter((alumno: any) => {
+      // Buscar si el alumno tiene la materia en la cual el profesor dicta clases
+      return alumno.materiasMatriculadas.some((materiaMatriculada: any) => materiaMatriculada.materia.id === materiaId);
+    });
+
+    console.log('Alumnos del profesor:');
+    if (alumnosDelProfesor.length > 0) {
+      console.log(alumnosDelProfesor);
+    } else {
+      console.log('No se encontraron alumnos para el profesor con ID:', profesorId);
+    }
   } else {
-    console.log('No se encontró el profesor con el ID proporcionado.');
-    return [];
+    console.log('No se encontró el profesor con ID:', profesorId);
   }
-};
+}
 
-// Obtener ID del profesor específico
-let profesorId = readlineSync.question('Ingresa el ID del profesor: ');
 
-// Obtener y mostrar alumnos del profesor específico
-const alumnosDelProfesor = obtenerAlumnosDeProfesor(profesorId);
-console.log('Alumnos del profesor con ID', profesorId);
-console.log(alumnosDelProfesor);
-
+}
 
 
 
