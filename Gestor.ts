@@ -4,6 +4,8 @@ import Materia from "./Materia";
 const { v4: uuidv4 } = require('uuid');
 import { chequear, escribir, leer, guardar } from "./Utils";
 
+
+
 let materias = leer('./Materias.json');
 let profesores = leer('./Profesores.json');
 let alumnos = leer('./Alumnos.json');
@@ -169,7 +171,7 @@ getAlumnosPorProfesor() {
   const profesorId = readlineSync.question('Por favor, ingrese el ID del profesor: ');
 
   // Buscar al profesor por su ID
-  const profesor = profesores.find((profesor: any) => profesor.id === profesorId);
+  const profesor = profesores.find((profesor: any) => profesor.id === String(profesorId));
 
   if (profesor) {
     const materiaId = profesor.materiaId;
