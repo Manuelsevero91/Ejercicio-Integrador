@@ -18,7 +18,7 @@ import {Alumno} from "./Alumno";
 
 let trainspotting = new Gestor('trainspotting');
 let Manuel = new Alumno('Manuel', 'Severo', 5443265, uuidv4, 6);
-trainspotting.getAlumnosPorProfesor()
+trainspotting.run()
 // trainspotting.agregarProfesor();
 // trainspotting.agregarProfesor();
 // trainspotting.agregarProfesor();

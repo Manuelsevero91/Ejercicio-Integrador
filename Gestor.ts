@@ -4,11 +4,11 @@ import Materia from "./Materia";
 const { v4: uuidv4 } = require('uuid');
 import { chequear, escribir, leer, guardar } from "./Utils";
 
-
-
-let materias = leer('./Materias.json');
-let profesores = leer('./Profesores.json');
-let alumnos = leer('./Alumnos.json');
+let pathProfesores = ('./Profesores.json')
+let pathAlumnos = ('./Alumnos.json')
+// let materias = leer('./Materias.json');
+// let profesores = leer('./Profesores.json');
+// let alumnos = leer('./Alumnos.json');
 const fs = require('fs');
 const readlineSync = require('readline-sync');
 
@@ -142,6 +142,8 @@ export default class Gestor {
  
 // Función para obtener profesores por ID de alumno
   getProfesoresPorAlumno() {
+    let profesores = leer(pathProfesores);
+    let alumnos = leer(pathAlumnos);  
   const alumnoId = readlineSync.question('Ingresa el ID del alumno: ');
 
   // Buscar al alumno por su ID
@@ -167,6 +169,8 @@ export default class Gestor {
 
 // Definir la función getAlumnosPorProfesor sin parámetros
 getAlumnosPorProfesor() {
+  let profesores = leer(pathProfesores);
+  let alumnos = leer(pathAlumnos);
   // Solicitar el ID del profesor al usuario
   const profesorId = readlineSync.question('Por favor, ingrese el ID del profesor: ');
 
@@ -189,10 +193,107 @@ getAlumnosPorProfesor() {
   } else {
     console.log('No se encontró el profesor con ID:', profesorId);
   }
+}buscarProfesorPorId(): Profesor {
+  const id = readlineSync.question('Ingrese el ID del profesor: ');
+  const profesores = leer('./Profesores.json');
+  const ProfesorEncontrado = profesores.find((profesor:Profesor )=> profesor.id === id);
+  if (ProfesorEncontrado) {
+      console.log(id, 'Existe en la lista', ProfesorEncontrado);
+      return ProfesorEncontrado;
+  } else() => {
+      console.log(id, 'No existe en la lista')
+        }
+        return ProfesorEncontrado;
+}
+
+buscarAlumnoPorId(): Alumno {
+    const id = readlineSync.question('Ingrese el ID del alumno: ');
+    const alumnos = leer('./Alumnos.json');
+    const AlumnoEncontrado = alumnos.find((alumno:Alumno )=> alumno.id === id);
+    if (AlumnoEncontrado) {
+        console.log(id, 'Existe en la lista', AlumnoEncontrado);
+        return AlumnoEncontrado;
+    } else {
+              console.log(id, 'No existe en la lista');
+        return AlumnoEncontrado;
+    }
+  
 }
 
 
+listarAlumnos(): void {
+  const pathAlumnos = './Alumnos.json';
+  const alumnos: Alumno[] = leer(pathAlumnos);
 }
+listarProfesores(): void {
+const pathProfesores = './Profesores.json';
+const profesores:Profesor[] = leer(pathProfesores);
+}
+
+mostrarMenu(): void {
+  console.log('==== MENU ====');
+  console.log('1. Lista de Alumnos ');
+  console.log('2. Lista de Profesores ');
+  console.log('3. Buscar Alumno por id ');
+  console.log('4. Buscar Profesor por id ');
+  console.log('5. Obtener profesores de un Alumno ');
+  console.log('6. Obtener alumnos de un Profesor ');
+  console.log('7. Salir ');
+}
+
+salir(): void {
+  console.log('Adiós!');
+}
+ejecutarOpcion(opcion: string): void {
+  switch (opcion) {
+    case '1':
+const A = new Gestor("A");
+A.listarAlumnos();
+break;
+    case '2':
+const B = new Gestor("B");
+B.listarProfesores();
+break;
+    case '3':
+const C = new Gestor("C");
+C.buscarAlumnoPorId();
+break;
+    case '4':
+const D = new Gestor("D");
+D.buscarProfesorPorId();
+break;
+    case '5':
+const E = new Gestor("E");
+E.getProfesoresPorAlumno();
+break;
+    case '6':
+const F = new Gestor("F");
+F.getAlumnosPorProfesor();
+break;
+    case '7':
+  this.salir();
+  console.log('Adios y Gracias');
+      break;
+    default:
+      console.log('Opción inválida, intenta de nuevo');
+ }
+}
+run(): void {
+  let opcionSeleccionada: string = '';
+  while (opcionSeleccionada !== '7') {
+    this.mostrarMenu();
+    opcionSeleccionada = readlineSync.question('Escribe el numero de la opcion que deseas: ');
+    this.ejecutarOpcion(opcionSeleccionada);
+    this.run
+  }
+  }
+}
+
+
+
+
+
+
 
 
 
