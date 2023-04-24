@@ -4,7 +4,7 @@
     "apellido": "Cohen",
     "dni": "515616516",
     "materiaId": "863751",
-    "contrato": "true",
+    "contrato": true,
     "id": "1a5bfb"
   },
   {
@@ -36,7 +36,7 @@
     "apellido": "Lurie",
     "dni": "578642135",
     "materiaId": "a3562a",
-    "contrato": "true",
+    "contrato": false,
     "id": "e078cd"
   },
   {

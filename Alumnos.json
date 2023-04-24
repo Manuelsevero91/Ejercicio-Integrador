@@ -1,35 +1,5 @@
 [
   {
-    "nombre": "knsdkdn",
-    "apellido": "kdcnkcdn",
-    "dni": "664316",
-    "materiasMatriculadas": [
-      {
-        "materia": {
-          "nombre": "Guion",
-          "id": "863751"
-        },
-        "nota": 8
-      },
-      {
-        "materia": {
-          "nombre": "Produccion",
-          "id": "235fff"
-        },
-        "nota": 7
-      },
-      {
-        "materia": {
-          "nombre": "Sonido",
-          "id": "a3562a"
-        },
-        "nota": 8
-      }
-    ],
-    "id": "5d6120",
-    "promedioNotas": 7.666666666666667
-  },
-  {
     "nombre": "dcnkdcmn",
     "apellido": "kndcnknd",
     "dni": "235651",
