@@ -22,50 +22,23 @@ export class Alumno implements Persona {
   dni: number;
   materiasMatriculadas: { materia: { nombre: string, id: string }, nota: number }[];
   id: string;
-  promedioNotas: number;
+  // promedioNotas: number;
 
 
   constructor(nombre: string, apellido: string, dni: number,
-    id: string, promedioNotas: number) {
+    id: string) {
     this.nombre = nombre;
     this.apellido = apellido;
     this.dni = dni;
     this.materiasMatriculadas = [];
     this.id = uuidv4().slice(0, 6);
-    this.promedioNotas = promedioNotas;
+    // this.promedioNotas = promedioNotas;
 
   }
- 
-  agregarMateria() {
-    let pathMateria = './Materias.json'
-    let nombre = readlineSync.question('Nombre de la materia: ');
-    let id = uuidv4().slice(0, 6);
-    let nuevaMateria = new Materia(nombre, id);
-    guardar(pathMateria, nuevaMateria);
-
-  }
-  actualizarMateria(nombre: string) {
-    let pathMateria = './Materias.json'
-    let materias: Materia[] = [];
-    materias = JSON.parse(fs.readFileSync(pathMateria, 'utf-8'));
-    let materiaModificar = materias.findIndex(materia => materia.nombre === nombre);
-
-    if (materiaModificar !== -1) {
-      materias[materiaModificar].nombre = nombre;
-      fs.writeFileSync(pathMateria, JSON.stringify(materias, null, 2));
-
-    }
-    return materias;
-  }
-
-  eliminarMateria() {
-
-  }
-  getPromedio() {
 
   }
 
 
-}
+
 
 

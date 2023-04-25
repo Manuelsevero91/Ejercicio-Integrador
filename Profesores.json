@@ -20,7 +20,7 @@
     "apellido": "Jarmush",
     "dni": "646616161",
     "materiaId": "235fff",
-    "contrato": "true",
+    "contrato": true,
     "id": "876be8"
   },
   {

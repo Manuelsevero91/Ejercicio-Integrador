@@ -65,5 +65,51 @@
     ],
     "id": "26beb4",
     "promedioNotas": 7
+  },
+  {
+    "nombre": "Karina",
+    "apellido": "Tropieza",
+    "dni": "49613456",
+    "materiasMatriculadas": [
+      {
+        "materia": {
+          "nombre": "Guion",
+          "id": "863751"
+        },
+        "nota": 8
+      },
+      {
+        "materia": {
+          "nombre": "Produccion",
+          "id": "235fff"
+        },
+        "nota": 6
+      },
+      {
+        "materia": {
+          "nombre": "Montaje",
+          "id": "69316a"
+        },
+        "nota": 9
+      }
+    ],
+    "id": "10a08c",
+    "promedioNotas": 7.666666666666667
+  },
+  {
+    "nombre": "",
+    "apellido": "",
+    "dni": "",
+    "materiasMatriculadas": [
+      {
+        "materia": {
+          "nombre": "Guion",
+          "id": "863751"
+        },
+        "nota": 2
+      }
+    ],
+    "id": "af48ff",
+    "promedioNotas": 2
   }
 ]

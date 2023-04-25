@@ -4,23 +4,22 @@ import Materia from "./Materia";
 const { v4: uuidv4 } = require('uuid');
 import { chequear, escribir, leer, guardar } from "./Utils";
 
-let pathProfesores = ('./Profesores.json')
-let pathAlumnos = ('./Alumnos.json')
+const pathProfesores = ('./Profesores.json')
+const pathAlumnos = ('./Alumnos.json')
 const fs = require('fs');
 const readlineSync = require('readline-sync');
 
-export default class Gestor {
+export default class EscuelaCine {
   nombre: string;
   alumnos: [];
   materias: [];
-  profesor: Profesor[];
+  profesor: [];
   constructor(nombre: string) {
     this.nombre = nombre;
     this.alumnos = [];
     this.materias = [];
     this.profesor = [];
-    //  Por cada archivo chequear si existe, si existe leer su contenido y almecenarlo en la variable correspondiente,
-    //  sino crear el archivo e inicializar la variable correspondiente en vacio
+    
   }
   // Devuelve la materia que tenga el nombre especificado, o null si no se encuentra
   public obtenerMateria(materiaBuscada: string, materias: Materia[]): Materia | null {
@@ -28,16 +27,17 @@ export default class Gestor {
   }
 
   agregarAlumno() {
-    let pathAlumnos = './Alumnos.json';
-    let pathMaterias = './Materias.json';
+    const pathAlumnos = './Alumnos.json';
+    const pathMaterias = './Materias.json';
     let nombre = readlineSync.question('Nombre del alumno: ');
     let apellido = readlineSync.question('Apellido del alumno: ');
     let dni = readlineSync.question('DNI del alumno: ');
     let id = uuidv4().slice(0, 6)
-    let materias: string[] = ['Direccion', 'Guion', 'Fotografia', 'Produccion', 'Sonido', 'Montaje']
-    let Materias = leer(pathMaterias); // Leer datos de profesores
+    let Materias = leer(pathMaterias);
+    let materias: string[] = ['Direccion', 'Guion', 'Fotografia', 'Produccion', 'Sonido', 'Montaje'];
+    //Arreglo para almacenar las materias matriculadas y las notas
     let materiasMatriculadas: { materia: Materia, nota: number }[] = [];
-
+    // Seleeccionar las materias matriculadas y las notas
     while (true) {
       let indiceMateriasMatriculadas = readlineSync.keyInSelect(materias, 'Materias que se quiere matricular: ');
 
@@ -65,6 +65,7 @@ export default class Gestor {
         console.log('No se encontró la materia en la lista de materias. Por favor, intenta de nuevo.');
       }
     }
+    // Calcular la suma de las notas de las materias matriculadas
     let sumaNotas = 0;
     for (let i = 0; i < materiasMatriculadas.length; i++) {
       sumaNotas += materiasMatriculadas[i].nota;
@@ -84,8 +85,25 @@ export default class Gestor {
     console.log('Alumno agregado con éxito!');
   }
 
+  modificarAlumno() {
+
+  }
+
+  eliminarAlumno(): void {
+    const id = readlineSync.question('Ingrese el ID del alumno a eliminar: ')
+    let alumnos = leer('./Alumnos.json');
+    const indice = alumnos.findIndex((alumno: Alumno) => alumno.id === id);
+    if (indice !== -1) {
+      alumnos.splice(indice, 1); // Eliminar el alumno del array
+      escribir(alumnos, './Alumnos.json');
+      console.log(`El alumno con ID ${id} ha sido eliminado`);
+    } else {
+      console.log(`No se ha encontrado un alumno con ID ${id}`);
+    }
+  }
+
   agregarProfesor() {
-    let pathProfesores = './Profesores.json';
+    const pathProfesores = './Profesores.json';
     let nombre = readlineSync.question('Nombre del profesor: ');
     let apellido = readlineSync.question('Apellido del profesor: ');
     let dni = readlineSync.question('DNI del profesor: ');
@@ -104,26 +122,44 @@ export default class Gestor {
     guardar(pathProfesores, nuevoProfesor);
   }
 
-  modificarAlumno(){
- 
-  }
-  eliminarAlumno(): void {
-    const id = readlineSync.question('Ingrese el ID del alumno a eliminar: ')
-    let alumnos = leer('./Alumnos.json');
-    const indice = alumnos.findIndex((alumno: Alumno) => alumno.id === id);
-    if (indice !== -1) {
-      alumnos.splice(indice, 1); // Eliminar el alumno del array
-      escribir(alumnos, './Alumnos.json');
-      console.log(`El alumno con ID ${id} ha sido eliminado`);
+  actualizarContratoProfesor(): void {
+    const id = readlineSync.question('Ingrese el ID del profesor del contrato a actualizar: ')
+    const profesores = leer('./Profesores.json');
+    let ProfesorEncontrado = profesores.find((profesor: Profesor) => profesor.id === id);
+    if (ProfesorEncontrado) {
+      ProfesorEncontrado.contrato = true;
+      escribir(profesores, './Profesores.json',);
+      console.log(`El contrato de profesor con ID ${id} ha sido actualizado`);
     } else {
-      console.log(`No se ha encontrado un alumno con ID ${id}`);
+      console.log(`No se ha encontrado al profesor con ID ${id}`);
     }
+  }
+  
+  rescindirContratoDeProfesor(): void {
+    const id = readlineSync.question('Ingrese el ID del profesor del contrato ha rescindir: ')
+    const profesores = leer('./Profesores.json');
+    let ProfesorEncontrado = profesores.find((profesor: Profesor) => profesor.id === id);
+    if (ProfesorEncontrado) {
+      ProfesorEncontrado.contrato = false;
+      escribir(profesores, './Profesores.json',);
+      console.log(`El contrato de profesor con ID ${id} ha sido rescindido`);
+    } else {
+      console.log(`No se ha encontrado al profesor con ID ${id}`);
+    }
+  } 
+
+  agregarMateria() {
+    let pathMateria = './Materias.json'
+    let nombre = readlineSync.question('Nombre de la materia: ');
+    let id = uuidv4().slice(0, 6);
+    let nuevaMateria = new Materia(nombre, id);
+    guardar(pathMateria, nuevaMateria);
   }
 
   // Función para obtener profesores por ID de alumno
   getProfesoresPorAlumno() {
-    let profesores = leer(pathProfesores);
-    let alumnos = leer(pathAlumnos);
+    const profesores = leer(pathProfesores);
+    const alumnos = leer(pathAlumnos);
     const alumnoId = readlineSync.question('Ingresa el ID del alumno: ');
 
     // Buscar al alumno por su ID
@@ -146,11 +182,10 @@ export default class Gestor {
     }
   }
 
-
   // Definir la función
   getAlumnosPorProfesor() {
-    let profesores = leer(pathProfesores);
-    let alumnos = leer(pathAlumnos);
+    const profesores = leer(pathProfesores);
+    const alumnos = leer(pathAlumnos);
     // Solicitar el ID del profesor al usuario
     const profesorId = readlineSync.question('Por favor, ingrese el ID del profesor: ');
 
@@ -174,7 +209,7 @@ export default class Gestor {
       console.log('No se encontró el profesor con ID:', profesorId);
     }
 
-  } buscarProfesorPorId(): Profesor {
+  } buscarProfesor(): Profesor {
     const id = readlineSync.question('Ingrese el ID del profesor: ');
     const profesores = leer('./Profesores.json');
     const ProfesorEncontrado = profesores.find((profesor: Profesor) => profesor.id === id);
@@ -187,12 +222,12 @@ export default class Gestor {
     return ProfesorEncontrado;
   }
 
-  buscarAlumnoPorId(): Alumno {
+  buscarAlumno(): Alumno {
     const id = readlineSync.question('Ingrese el ID del alumno: ');
     const alumnos = leer('./Alumnos.json');
     const AlumnoEncontrado = alumnos.find((alumno: Alumno) => alumno.id === id);
     if (AlumnoEncontrado) {
-    console.log(id,'Existe en la lista', JSON.stringify(AlumnoEncontrado, null, 2));
+      console.log(id, 'Existe en la lista', JSON.stringify(AlumnoEncontrado, null, 2));
       return AlumnoEncontrado;
     } else {
       console.log(id, 'No existe en la lista');
@@ -202,16 +237,29 @@ export default class Gestor {
   }
 
   listarAlumnos(): void {
-    const pathAlumnos = './Alumnos.json';
-    const alumnos: Alumno[] = leer(pathAlumnos);
+    // const pathAlumnos = './Alumnos.json';
+    const alumnos = leer(pathAlumnos);
     console.log(JSON.stringify(alumnos, null, 2));
   }
-  listarProfesores(): void {
-    const pathProfesores = './Profesores.json';
-    const profesores: Profesor[] = leer(pathProfesores);
+
+  alumnosPorPromedio(){
+    const alumnos = leer(pathAlumnos);
+// Ordenar los alumnos por promedio de notas en orden descendente
+alumnos.sort((a: any, b: any) => b.promedioNotas - a.promedioNotas);
+
+// Listar los alumnos con sus nombres y promedios en orden
+console.log('Alumnos ordenados por promedio de notas:');
+alumnos.forEach((alumno: any) => {
+  console.log(`Nombre: ${alumno.nombre} ${alumno.apellido} - Promedio de notas: ${alumno.promedioNotas}`);
+});
   }
 
-  mostrarMenu(): void {
+  listarProfesores(): void {
+    // const pathProfesores = './Profesores.json';
+    const profesores = leer(pathProfesores);
+  }
+
+  Menu(): void {
     console.log('==== MENU ====');
     console.log('1. Lista de Alumnos ');
     console.log('2. Lista de Profesores ');
@@ -219,7 +267,8 @@ export default class Gestor {
     console.log('4. Buscar Profesor por id ');
     console.log('5. Obtener profesores de un Alumno ');
     console.log('6. Obtener alumnos de un Profesor ');
-    console.log('7. Salir ');
+    console.log('7. Listar alumnos por promedio ');
+    console.log('8. Salir ');
   }
 
   salir(): void {
@@ -228,31 +277,28 @@ export default class Gestor {
   ejecutarOpcion(opcion: string): void {
     switch (opcion) {
       case '1':
-        const A = new Gestor("A");
-        A.listarAlumnos();
+        this.listarAlumnos();
         break;
       case '2':
-        const B = new Gestor("B");
-        B.listarProfesores();
+        this.listarProfesores();
         break;
       case '3':
-        const C = new Gestor("C");
-        C.buscarAlumnoPorId();
+        this.buscarAlumno();
         break;
       case '4':
-        const D = new Gestor("D");
-        D.buscarProfesorPorId();
+        this.buscarProfesor();
         break;
       case '5':
-        const E = new Gestor("E");
-        E.getProfesoresPorAlumno();
+        this.getProfesoresPorAlumno();
         break;
       case '6':
-        const F = new Gestor("F");
-        F.getAlumnosPorProfesor();
+        this.getAlumnosPorProfesor();
         break;
       case '7':
-        this.salir();
+        this.alumnosPorPromedio();
+        break;
+      case '8':
+        this.salir()
         console.log('Adios y Gracias');
         break;
       default:
@@ -261,41 +307,15 @@ export default class Gestor {
   }
   run(): void {
     let opcionSeleccionada: string = '';
-    while (opcionSeleccionada !== '7') {
-      this.mostrarMenu();
+    while (opcionSeleccionada !== '8') {
+      this.Menu();
       opcionSeleccionada = readlineSync.question('Escribe el numero de la opcion que deseas: ');
       this.ejecutarOpcion(opcionSeleccionada);
       this.run
     }
   }
 
-  rescindirContratoDeProfesor(): void {
-    const id = readlineSync.question('Ingrese el ID del profesor del contrato ha rescindir: ')
-    let profesores = leer('./Profesores.json');
-    let ProfesorEncontrado = profesores.find((profesor: Profesor) => profesor.id === id);
-    if (ProfesorEncontrado) {
-      ProfesorEncontrado.contrato = false;
-      escribir(profesores, './Profesores.json',);
-      console.log(`El contrato de profesor con ID ${id} ha sido rescindido`);
-    } else {
-      console.log(`No se ha encontrado al profesor con ID ${id}`);
-    }
-  }
-
-  actualizarContratoProfesor(): void{
-    const id = readlineSync.question('Ingrese el ID del profesor del contrato a actualizar: ')
-    let profesores = leer('./Profesores.json');
-    let ProfesorEncontrado = profesores.find((profesor: Profesor) => profesor.id === id);
-    if (ProfesorEncontrado) {
-      ProfesorEncontrado.contrato = true;
-      escribir(profesores, './Profesores.json',);
-      console.log(`El contrato de profesor con ID ${id} ha sido actualizado`);
-    } else {
-      console.log(`No se ha encontrado al profesor con ID ${id}`);
-    }
-  }
 }
-
 
 
 
