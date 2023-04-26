@@ -4,41 +4,54 @@ const { v4: uuidv4 } = require('uuid');
 import Profesor from "./Profesor";
 import { chequear, escribir, guardar, leer } from "./Utils";
 
+const pathAlumnos = ('./Alumnos.json')
 const fs = require('fs');
 const readlineSync = require('readline-sync');
 
-export enum MateriasMatriculadas{
-   Direccion,    
-   Guionista,
-   Fotografia,
-   Produccion,
-   Sonido,
-   Montaje
-}
-
-export class Alumno implements Persona {
+class Alumno implements Persona {
   nombre: string;
   apellido: string;
   dni: number;
   materiasMatriculadas: { materia: { nombre: string, id: string }, nota: number }[];
   id: string;
-  // promedioNotas: number;
+  
 
 
-  constructor(nombre: string, apellido: string, dni: number,
-    id: string) {
+  constructor(nombre: string, apellido: string, dni: number) {
     this.nombre = nombre;
     this.apellido = apellido;
     this.dni = dni;
     this.materiasMatriculadas = [];
     this.id = uuidv4().slice(0, 6);
-    // this.promedioNotas = promedioNotas;
-
   }
 
+  getPromedio() {
+    const promediosAlumnos: { id: string, promedio: number }[] = [];
+    const alumnos = leer(pathAlumnos)
+    while(true){
+    const id = readlineSync.question('Ingrese el ID del alumno a obtener promedio: ')
+
+    if (id === "salir") {
+      break;
+    }
+            const alumno = alumnos.find((a: any) => a.id === id);
+        if (!alumno) {
+          (`No se encontró un alumno con ID: ${id}`);
+        }
+        let totalNotas = 0;
+        const materiasMatriculadas = alumno.materiasMatriculadas;
+        for (let i = 0; i < materiasMatriculadas.length; i++) {
+          totalNotas += materiasMatriculadas[i].nota;
+        }
+        const promedio = totalNotas / materiasMatriculadas.length;
+        promediosAlumnos.push({ id, promedio });
+        console.log(`El promedio de notas del alumno es: ${promedio}`)
+        
+    } 
+    
+    return promediosAlumnos; 
   }
 
-
-
-
-
+}
+         
+  export default Alumno;

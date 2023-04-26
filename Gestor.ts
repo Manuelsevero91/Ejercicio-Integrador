@@ -1,13 +1,15 @@
 import Profesor from "./Profesor";
-import { Alumno } from "./Alumno";
+import  Alumno  from "./Alumno";
 import Materia from "./Materia";
 const { v4: uuidv4 } = require('uuid');
 import { chequear, escribir, leer, guardar } from "./Utils";
-
+ 
 const pathProfesores = ('./Profesores.json')
 const pathAlumnos = ('./Alumnos.json')
 const fs = require('fs');
 const readlineSync = require('readline-sync');
+const Gustavo = new Alumno('Gustavo', 'Cordera', 5443265);
+
 
 export default class EscuelaCine {
   nombre: string;
@@ -46,7 +48,8 @@ export default class EscuelaCine {
       }
 
       let materiaElegida = materias[indiceMateriasMatriculadas];
-      let materia = this.obtenerMateria(materiaElegida, Materias); // Obtener la materia seleccionada
+      // Obtener la materia seleccionada
+      let materia = this.obtenerMateria(materiaElegida, Materias); 
 
       if (materia) {
         let nota = readlineSync.question(`Ingrese la nota para la materia ${materia.nombre}: `);
@@ -67,31 +70,23 @@ export default class EscuelaCine {
     }
     // Calcular la suma de las notas de las materias matriculadas
     let sumaNotas = 0;
-    for (let i = 0; i < materiasMatriculadas.length; i++) {
-      sumaNotas += materiasMatriculadas[i].nota;
-    }
-
-    let promedioNotas = sumaNotas / materiasMatriculadas.length;
+    
     let nuevoAlumno = {
       nombre: nombre,
       apellido: apellido,
       dni: dni,
       materiasMatriculadas: materiasMatriculadas,
       id: id,
-      promedioNotas: promedioNotas
     }
 
     guardar(pathAlumnos, nuevoAlumno);
     console.log('Alumno agregado con éxito!');
   }
 
-  modificarAlumno() {
-
-  }
-
   eliminarAlumno(): void {
     const id = readlineSync.question('Ingrese el ID del alumno a eliminar: ')
     let alumnos = leer('./Alumnos.json');
+    // Busca el indice del alumno en el arreglo
     const indice = alumnos.findIndex((alumno: Alumno) => alumno.id === id);
     if (indice !== -1) {
       alumnos.splice(indice, 1); // Eliminar el alumno del array
@@ -107,7 +102,7 @@ export default class EscuelaCine {
     let nombre = readlineSync.question('Nombre del profesor: ');
     let apellido = readlineSync.question('Apellido del profesor: ');
     let dni = readlineSync.question('DNI del profesor: ');
-    let contrato = readlineSync.question('Contrato del profesor: ');
+    let contrato = true;
     let materias = leer('./materias.json')
     console.log('Materias disponibles:');
     for (let materia of materias) {
@@ -120,6 +115,7 @@ export default class EscuelaCine {
 
 
     guardar(pathProfesores, nuevoProfesor);
+    console.log('Profesor agregado con éxito!');
   }
 
   actualizarContratoProfesor(): void {
@@ -199,7 +195,7 @@ export default class EscuelaCine {
         return alumno.materiasMatriculadas.some((materiaMatriculada: any) => materiaMatriculada.materia.id === materiaId);
       });
 
-      // console.log('Alumnos del profesor:');
+      console.log('Alumnos del profesor:');
       if (alumnosDelProfesor.length > 0) {
         console.log(JSON.stringify(alumnosDelProfesor, null, 2));
       } else {
@@ -233,30 +229,44 @@ export default class EscuelaCine {
       console.log(id, 'No existe en la lista');
       return AlumnoEncontrado;
     }
-
   }
-
+ 
   listarAlumnos(): void {
-    // const pathAlumnos = './Alumnos.json';
-    const alumnos = leer(pathAlumnos);
+    const alumnos: Alumno[] = leer(pathAlumnos);
     console.log(JSON.stringify(alumnos, null, 2));
+    console.log(alumnos[0].materiasMatriculadas[0].materia);
+    for (let i = 0; i < alumnos.length; i++) {
+      const alumno = alumnos[i];
+     console.log(alumno.nombre, alumno.apellido)
+    }
   }
 
-  alumnosPorPromedio(){
-    const alumnos = leer(pathAlumnos);
-// Ordenar los alumnos por promedio de notas en orden descendente
-alumnos.sort((a: any, b: any) => b.promedioNotas - a.promedioNotas);
-
-// Listar los alumnos con sus nombres y promedios en orden
-console.log('Alumnos ordenados por promedio de notas:');
-alumnos.forEach((alumno: any) => {
-  console.log(`Nombre: ${alumno.nombre} ${alumno.apellido} - Promedio de notas: ${alumno.promedioNotas}`);
-});
+  alumnosPorPromedio(promediosAlumnos: { id: string, promedio: number }[], alumnos: Alumno[]): void {
+    // Ordenar el arreglo de promedios de forma descendente
+    promediosAlumnos.sort((a, b) => b.promedio - a.promedio);
+  
+    // Imprimir el listado de alumnos y sus promedios
+    console.log("Listado de alumnos por promedio:");
+    for (let i = 0; i < promediosAlumnos.length; i++) {
+      const id = promediosAlumnos[i].id;
+      const promedio = promediosAlumnos[i].promedio;
+  
+      // Buscar el nombre y apellido del alumno en función del ID
+      const alumno = alumnos.find(alumno => alumno.id === id);
+      const nombre = alumno ? alumno.nombre : "Desconocido";
+      const apellido = alumno ? alumno.apellido : "Desconocido";
+  
+      // Imprimir nombre, apellido y promedio
+      console.log(`ID: ${id}, Nombre: ${nombre}, Apellido: ${apellido}, Promedio: ${promedio}`);
+    }
   }
-
+ 
   listarProfesores(): void {
-    // const pathProfesores = './Profesores.json';
-    const profesores = leer(pathProfesores);
+    const profesores: Profesor[] = leer(pathProfesores);
+    for (let i = 0; i < profesores.length; i++) {
+      const profesor = profesores[i];
+      console.log(profesor.nombre, profesor.apellido);  
+    }
   }
 
   Menu(): void {
@@ -268,12 +278,13 @@ alumnos.forEach((alumno: any) => {
     console.log('5. Obtener profesores de un Alumno ');
     console.log('6. Obtener alumnos de un Profesor ');
     console.log('7. Listar alumnos por promedio ');
-    console.log('8. Salir ');
-  }
+    console.log('8. Agregar un alumno ');    
+    console.log('9. Agregar un profesor ');
+    console.log('10. Salir ');
+    }
 
   salir(): void {
-    console.log('Adiós!');
-  }
+      }
   ejecutarOpcion(opcion: string): void {
     switch (opcion) {
       case '1':
@@ -295,10 +306,18 @@ alumnos.forEach((alumno: any) => {
         this.getAlumnosPorProfesor();
         break;
       case '7':
-        this.alumnosPorPromedio();
+        const alumnos = leer(pathAlumnos)
+        const promediosAlumnos = Gustavo.getPromedio();
+        this.alumnosPorPromedio(promediosAlumnos, alumnos);
         break;
-      case '8':
-        this.salir()
+        case '8':
+          this.agregarAlumno();
+          break;
+        case '9':
+          this.agregarProfesor();               
+          break;
+      case '10':
+        this.salir();
         console.log('Adios y Gracias');
         break;
       default:
@@ -307,22 +326,12 @@ alumnos.forEach((alumno: any) => {
   }
   run(): void {
     let opcionSeleccionada: string = '';
-    while (opcionSeleccionada !== '8') {
+    while (opcionSeleccionada !== '10') {
       this.Menu();
       opcionSeleccionada = readlineSync.question('Escribe el numero de la opcion que deseas: ');
       this.ejecutarOpcion(opcionSeleccionada);
-      this.run
+      
     }
   }
-
+  
 }
-
-
-
-
-
-
-
-
-
-

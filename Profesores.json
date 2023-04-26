@@ -12,7 +12,7 @@
     "apellido": "Coppola",
     "dni": "1616161",
     "materiaId": "759f98",
-    "contrato": "true",
+    "contrato": true,
     "id": "c13186"
   },
   {
@@ -28,7 +28,7 @@
     "apellido": "Boyle",
     "dni": "161358336",
     "materiaId": "69316a",
-    "contrato": "true",
+    "contrato": true,
     "id": "6cb6ec"
   },
   {
@@ -36,7 +36,7 @@
     "apellido": "Lurie",
     "dni": "578642135",
     "materiaId": "a3562a",
-    "contrato": false,
+    "contrato": true,
     "id": "e078cd"
   },
   {
@@ -44,7 +44,7 @@
     "apellido": "Inarritu",
     "dni": "12365124",
     "materiaId": "509aed",
-    "contrato": "true",
+    "contrato": true,
     "id": "acf03a"
   }
 ]

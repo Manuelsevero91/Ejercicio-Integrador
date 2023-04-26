@@ -3,32 +3,26 @@ import Materia from "./Materia";
 import Profesor from "./Profesor";
 import {chequear, escribir, leer, guardar} from "./Utils";
 const { v4: uuidv4 } = require('uuid');
-import {Alumno} from "./Alumno";
+import Alumno from "./Alumno";
 
 
-// let path = './profesores.json';
-// guardar(path, Danny)
-
-// let trainspotting = new Gestor('trainspotting');
-// let Manuel = new Alumno('Manuel', 'Severo', 5443265, uuidv4, 6);
-// trainspotting.run()
+let trainspotting = new Gestor('trainspotting');
+let Manuel = new Alumno('Manuel', 'Severo', 5443265);
+// trainspotting.agregarAlumno()
 // trainspotting.agregarProfesor();
 // trainspotting.agregarProfesor();
 // trainspotting.agregarProfesor();
 // trainspotting.agregarProfesor();
 // trainspotting.agregarAlumno();
-// trainspotting.agregarAlumno();
-// trainspotting.agregarAlumno();
-// trainspotting.agregarAlumno();
+trainspotting.run();
+// trainspotting.actualizarContratoProfesor();
+// trainspotting.actualizarContratoProfesor();
 // Manuel.agregarMateria()
 // Manuel.agregarMateria()
 // Manuel.agregarMateria()
 // Manuel.agregarMateria()
 // Manuel.agregarMateria()
-// Manuel.agregarMateria()
-// Manuel.actualizarMateria('Direccion')
-// Manuel.actualizarMateria(JSON, 'Direccion')
-
+// Manuel.getPromedio()
 
 
 
