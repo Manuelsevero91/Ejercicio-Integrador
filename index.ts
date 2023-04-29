@@ -7,23 +7,26 @@ import Alumno from "./Alumno";
 
 
 let trainspotting = new Gestor('trainspotting');
-let Manuel = new Alumno('Manuel', 'Severo', 5443265);
+let pepe = new Alumno('peter', 'Toshing', 21245213)
 // trainspotting.agregarAlumno()
 // trainspotting.agregarProfesor();
 // trainspotting.agregarProfesor();
 // trainspotting.agregarProfesor();
 // trainspotting.agregarProfesor();
 // trainspotting.agregarAlumno();
+// trainspotting.agregarMateria()
+// // trainspotting.eliminarAlumno()
+// // trainspotting.eliminarAlumno()
+// // trainspotting.eliminarAlumno()
+// trainspotting.rescindirContratoDeProfesor()
+// trainspotting.rescindirContratoDeProfesor()
+// trainspotting.actualizarContratoProfesor();
+// trainspotting.actualizarContratoProfesor();
+// trainspotting.agregarMateria()
+// trainspotting.agregarMateria()
+// trainspotting.agregarMateria()
+// pepe.getPromedio()
 trainspotting.run();
-// trainspotting.actualizarContratoProfesor();
-// trainspotting.actualizarContratoProfesor();
-// Manuel.agregarMateria()
-// Manuel.agregarMateria()
-// Manuel.agregarMateria()
-// Manuel.agregarMateria()
-// Manuel.agregarMateria()
-// Manuel.getPromedio()
-
 
 
 

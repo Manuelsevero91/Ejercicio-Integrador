@@ -1,15 +1,15 @@
 import Profesor from "./Profesor";
-import  Alumno  from "./Alumno";
+import Alumno from "./Alumno";
 import Materia from "./Materia";
 const { v4: uuidv4 } = require('uuid');
 import { chequear, escribir, leer, guardar } from "./Utils";
- 
+
+const pathMaterias = ('./Materias.json')
 const pathProfesores = ('./Profesores.json')
 const pathAlumnos = ('./Alumnos.json')
 const fs = require('fs');
 const readlineSync = require('readline-sync');
 const Gustavo = new Alumno('Gustavo', 'Cordera', 5443265);
-
 
 export default class EscuelaCine {
   nombre: string;
@@ -21,56 +21,51 @@ export default class EscuelaCine {
     this.alumnos = [];
     this.materias = [];
     this.profesor = [];
-    
-  }
-  // Devuelve la materia que tenga el nombre especificado, o null si no se encuentra
-  public obtenerMateria(materiaBuscada: string, materias: Materia[]): Materia | null {
-    return materias.find(materia => materia.nombre === materiaBuscada) || null;
+
   }
 
   agregarAlumno() {
-    const pathAlumnos = './Alumnos.json';
-    const pathMaterias = './Materias.json';
+    // Cargar la lista de materias desde el archivo JSON
+    let materias: Materia[] = leer(pathMaterias);
     let nombre = readlineSync.question('Nombre del alumno: ');
     let apellido = readlineSync.question('Apellido del alumno: ');
     let dni = readlineSync.question('DNI del alumno: ');
     let id = uuidv4().slice(0, 6)
-    let Materias = leer(pathMaterias);
-    let materias: string[] = ['Direccion', 'Guion', 'Fotografia', 'Produccion', 'Sonido', 'Montaje'];
-    //Arreglo para almacenar las materias matriculadas y las notas
     let materiasMatriculadas: { materia: Materia, nota: number }[] = [];
-    // Seleeccionar las materias matriculadas y las notas
+
+    // Seleccionar las materias 
     while (true) {
-      let indiceMateriasMatriculadas = readlineSync.keyInSelect(materias, 'Materias que se quiere matricular: ');
+      // Muestra la lista de materias 
+      materias.forEach(materia => console.log(materia.nombre));
+
+      let indiceMateriasMatriculadas = readlineSync.keyInSelect(materias.map(materia => materia.nombre), 'Materias que se quiere matricular: ');
 
       if (indiceMateriasMatriculadas === -1) {
         break;
       }
-
-      let materiaElegida = materias[indiceMateriasMatriculadas];
       // Obtener la materia seleccionada
-      let materia = this.obtenerMateria(materiaElegida, Materias); 
+      let materiaElegida = materias[indiceMateriasMatriculadas];
+      let materia = materiaElegida;
 
-      if (materia) {
+      // Verificar si la materia ya se encuentra en la lista de materias matriculadas
+      let materiaSeleccionada = materiasMatriculadas.find(mat => mat.materia.nombre === materia.nombre);
+
+      if (materiaSeleccionada) {
+        console.log(`Ya seleccionaste la materia ${materia.nombre}. Selecciona otra materia.`);
+      } else {
+
         let nota = readlineSync.question(`Ingrese la nota para la materia ${materia.nombre}: `);
         nota = parseInt(nota);
 
         while (!(nota >= 0 && nota <= 10)) {
-          console.log('Por favor, ingrese un valor numérico válido entre 0 y 10 para la nota.');
+          console.log('Ingrese un valor numérico válido entre 0 y 10 para la nota.');
           nota = readlineSync.question(`Ingrese la nota para la materia ${materia.nombre}: `);
           nota = parseInt(nota);
         }
 
-
         materiasMatriculadas.push({ materia: materia, nota: nota });
-
-      } else {
-        console.log('No se encontró la materia en la lista de materias. Por favor, intenta de nuevo.');
       }
     }
-    // Calcular la suma de las notas de las materias matriculadas
-    let sumaNotas = 0;
-    
     let nuevoAlumno = {
       nombre: nombre,
       apellido: apellido,
@@ -78,10 +73,10 @@ export default class EscuelaCine {
       materiasMatriculadas: materiasMatriculadas,
       id: id,
     }
-
     guardar(pathAlumnos, nuevoAlumno);
     console.log('Alumno agregado con éxito!');
   }
+
 
   eliminarAlumno(): void {
     const id = readlineSync.question('Ingrese el ID del alumno a eliminar: ')
@@ -130,7 +125,7 @@ export default class EscuelaCine {
       console.log(`No se ha encontrado al profesor con ID ${id}`);
     }
   }
-  
+
   rescindirContratoDeProfesor(): void {
     const id = readlineSync.question('Ingrese el ID del profesor del contrato ha rescindir: ')
     const profesores = leer('./Profesores.json');
@@ -142,7 +137,7 @@ export default class EscuelaCine {
     } else {
       console.log(`No se ha encontrado al profesor con ID ${id}`);
     }
-  } 
+  }
 
   agregarMateria() {
     let pathMateria = './Materias.json'
@@ -162,9 +157,9 @@ export default class EscuelaCine {
     const alumno = alumnos.find((alumno: any) => alumno.id === alumnoId);
 
     if (alumno) {
-      const materiaId = alumno.materiaId;
-      // const profesoresDelAlumno = profesores.filter((profesor: any) => profesor.materiaId === materiaId);
       const materiaIds = alumno.materiasMatriculadas.map((materiaMatriculada: any) => materiaMatriculada.materia.id);
+
+      //Filtra arreglo de profesores y obtiene solo aquellos que tienen un id de materia que se encunetre en el arreglo de los ids de alumno//
       const profesoresDelAlumno = profesores.filter((profesor: any) => materiaIds.includes(profesor.materiaId));
 
       console.log('Profesores del alumno:');
@@ -230,42 +225,40 @@ export default class EscuelaCine {
       return AlumnoEncontrado;
     }
   }
- 
+
   listarAlumnos(): void {
     const alumnos: Alumno[] = leer(pathAlumnos);
-    console.log(JSON.stringify(alumnos, null, 2));
-    console.log(alumnos[0].materiasMatriculadas[0].materia);
     for (let i = 0; i < alumnos.length; i++) {
       const alumno = alumnos[i];
-     console.log(alumno.nombre, alumno.apellido)
+      console.log(alumno.nombre, alumno.apellido)
     }
   }
 
   alumnosPorPromedio(promediosAlumnos: { id: string, promedio: number }[], alumnos: Alumno[]): void {
     // Ordenar el arreglo de promedios de forma descendente
     promediosAlumnos.sort((a, b) => b.promedio - a.promedio);
-  
-    // Imprimir el listado de alumnos y sus promedios
+
+    // Mostrar listado de alumnos y sus promedios
     console.log("Listado de alumnos por promedio:");
     for (let i = 0; i < promediosAlumnos.length; i++) {
       const id = promediosAlumnos[i].id;
       const promedio = promediosAlumnos[i].promedio;
-  
-      // Buscar el nombre y apellido del alumno en función del ID
+
+      // Buscar el nombre y apellido del alumno por ID
       const alumno = alumnos.find(alumno => alumno.id === id);
-      const nombre = alumno ? alumno.nombre : "Desconocido";
-      const apellido = alumno ? alumno.apellido : "Desconocido";
-  
-      // Imprimir nombre, apellido y promedio
-      console.log(`ID: ${id}, Nombre: ${nombre}, Apellido: ${apellido}, Promedio: ${promedio}`);
+      const nombre = alumno?.nombre;
+      const apellido = alumno?.apellido;
+
+      // Mostrar nombre, apellido y promedio
+      console.log(`ID: ${id}, ${nombre} ${apellido}, Promedio: ${promedio}`);
     }
   }
- 
+
   listarProfesores(): void {
     const profesores: Profesor[] = leer(pathProfesores);
     for (let i = 0; i < profesores.length; i++) {
       const profesor = profesores[i];
-      console.log(profesor.nombre, profesor.apellido);  
+      console.log(profesor.nombre, profesor.apellido);
     }
   }
 
@@ -278,13 +271,13 @@ export default class EscuelaCine {
     console.log('5. Obtener profesores de un Alumno ');
     console.log('6. Obtener alumnos de un Profesor ');
     console.log('7. Listar alumnos por promedio ');
-    console.log('8. Agregar un alumno ');    
+    console.log('8. Agregar un alumno ');
     console.log('9. Agregar un profesor ');
     console.log('10. Salir ');
-    }
+  }
 
   salir(): void {
-      }
+  }
   ejecutarOpcion(opcion: string): void {
     switch (opcion) {
       case '1':
@@ -310,12 +303,12 @@ export default class EscuelaCine {
         const promediosAlumnos = Gustavo.getPromedio();
         this.alumnosPorPromedio(promediosAlumnos, alumnos);
         break;
-        case '8':
-          this.agregarAlumno();
-          break;
-        case '9':
-          this.agregarProfesor();               
-          break;
+      case '8':
+        this.agregarAlumno();
+        break;
+      case '9':
+        this.agregarProfesor();
+        break;
       case '10':
         this.salir();
         console.log('Adios y Gracias');
@@ -330,8 +323,8 @@ export default class EscuelaCine {
       this.Menu();
       opcionSeleccionada = readlineSync.question('Escribe el numero de la opcion que deseas: ');
       this.ejecutarOpcion(opcionSeleccionada);
-      
+
     }
   }
-  
+
 }

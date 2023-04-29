@@ -346,5 +346,42 @@
       }
     ],
     "id": "2da3d5"
+  },
+  {
+    "nombre": "ckdnd+",
+    "apellido": "mcdkdcml",
+    "dni": "lcmdldm",
+    "materiasMatriculadas": [
+      {
+        "materia": {
+          "nombre": "Guion",
+          "id": "863751"
+        },
+        "nota": 2
+      }
+    ],
+    "id": "958c46"
+  },
+  {
+    "nombre": "Pepe",
+    "apellido": "Brown",
+    "dni": "16161",
+    "materiasMatriculadas": [
+      {
+        "materia": {
+          "nombre": "Guion",
+          "id": "863751"
+        },
+        "nota": 9
+      },
+      {
+        "materia": {
+          "nombre": "Fotografia",
+          "id": "509aed"
+        },
+        "nota": 7
+      }
+    ],
+    "id": "c9a311"
   }
 ]
